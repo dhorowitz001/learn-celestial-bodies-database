@@ -48,20 +48,21 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.constellation (
-    name character varying(30),
     constellation_id integer NOT NULL,
-    star_id integer NOT NULL,
-    new_column character varying(10)
+    name character varying(30),
+    star_id integer,
+    new_column character varying(10),
+    new_column2 character varying(10) NOT NULL
 );
 
 
 ALTER TABLE public.constellation OWNER TO freecodecamp;
 
 --
--- Name: constellation_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+-- Name: constellation_constellation_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
 --
 
-CREATE SEQUENCE public.constellation_id_seq
+CREATE SEQUENCE public.constellation_constellation_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -70,13 +71,13 @@ CREATE SEQUENCE public.constellation_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.constellation_id_seq OWNER TO freecodecamp;
+ALTER TABLE public.constellation_constellation_id_seq OWNER TO freecodecamp;
 
 --
--- Name: constellation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+-- Name: constellation_constellation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
 --
 
-ALTER SEQUENCE public.constellation_id_seq OWNED BY public.constellation.constellation_id;
+ALTER SEQUENCE public.constellation_constellation_id_seq OWNED BY public.constellation.constellation_id;
 
 
 --
@@ -234,7 +235,7 @@ ALTER SEQUENCE public.star_id_seq OWNED BY public.star.star_id;
 -- Name: constellation constellation_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.constellation ALTER COLUMN constellation_id SET DEFAULT nextval('public.constellation_id_seq'::regclass);
+ALTER TABLE ONLY public.constellation ALTER COLUMN constellation_id SET DEFAULT nextval('public.constellation_constellation_id_seq'::regclass);
 
 
 --
@@ -269,17 +270,12 @@ ALTER TABLE ONLY public.star ALTER COLUMN star_id SET DEFAULT nextval('public.st
 -- Data for Name: constellation; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.constellation VALUES ('constellation1', 3, 2, NULL);
-INSERT INTO public.constellation VALUES ('constellation1', 4, 3, NULL);
-INSERT INTO public.constellation VALUES ('constellation1', 5, 4, NULL);
-INSERT INTO public.constellation VALUES ('constellation1', 6, 5, NULL);
-INSERT INTO public.constellation VALUES ('constellation1', 7, 6, NULL);
-INSERT INTO public.constellation VALUES ('constellation2', 8, 1, NULL);
-INSERT INTO public.constellation VALUES ('constellation2', 9, 2, NULL);
-INSERT INTO public.constellation VALUES ('constellation2', 10, 3, NULL);
-INSERT INTO public.constellation VALUES ('constellation2', 11, 4, NULL);
-INSERT INTO public.constellation VALUES ('constellation2', 12, 5, NULL);
-INSERT INTO public.constellation VALUES ('constellation2', 13, 6, NULL);
+INSERT INTO public.constellation VALUES (7, 'ursa major', 1, 'value1', 'column2');
+INSERT INTO public.constellation VALUES (8, 'ursa major', 2, 'value2', 'column2');
+INSERT INTO public.constellation VALUES (9, 'ursa major', 3, 'value3', 'column2');
+INSERT INTO public.constellation VALUES (10, 'ursa minor', 4, 'value4', 'column2');
+INSERT INTO public.constellation VALUES (11, 'ursa minor', 5, 'value5', 'column2');
+INSERT INTO public.constellation VALUES (12, 'ursa minor', 6, 'value6', 'column2');
 
 
 --
@@ -351,10 +347,10 @@ INSERT INTO public.star VALUES (6, 'star6', 2, 3, false, 1);
 
 
 --
--- Name: constellation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+-- Name: constellation_constellation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.constellation_id_seq', 13, true);
+SELECT pg_catalog.setval('public.constellation_constellation_id_seq', 12, true);
 
 
 --
@@ -394,11 +390,11 @@ ALTER TABLE ONLY public.constellation
 
 
 --
--- Name: constellation constellation_pk; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+-- Name: constellation constellation_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.constellation
-    ADD CONSTRAINT constellation_pk PRIMARY KEY (constellation_id, star_id);
+    ADD CONSTRAINT constellation_pkey PRIMARY KEY (constellation_id);
 
 
 --
@@ -482,18 +478,18 @@ ALTER TABLE ONLY public.moon
 
 
 --
+-- Name: constellation fk_star; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.constellation
+    ADD CONSTRAINT fk_star FOREIGN KEY (star_id) REFERENCES public.star(star_id);
+
+
+--
 -- Name: planet fk_star_id; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.planet
-    ADD CONSTRAINT fk_star_id FOREIGN KEY (star_id) REFERENCES public.star(star_id);
-
-
---
--- Name: constellation fk_star_id; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
---
-
-ALTER TABLE ONLY public.constellation
     ADD CONSTRAINT fk_star_id FOREIGN KEY (star_id) REFERENCES public.star(star_id);
 
 
