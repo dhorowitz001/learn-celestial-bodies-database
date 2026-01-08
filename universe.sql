@@ -4,9 +4,8 @@
 
 -- Dumped from database version 12.22 (Ubuntu 12.22-0ubuntu0.20.04.4)
 -- Dumped by pg_dump version 12.22 (Ubuntu 12.22-0ubuntu0.20.04.4)
--- comment
 
-SET statement_timeout = 0; 
+SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -50,7 +49,7 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.constellation (
     name character varying(30),
-    id integer NOT NULL,
+    constellation_id integer NOT NULL,
     star_id integer NOT NULL,
     new_column character varying(10)
 );
@@ -77,7 +76,7 @@ ALTER TABLE public.constellation_id_seq OWNER TO freecodecamp;
 -- Name: constellation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
 --
 
-ALTER SEQUENCE public.constellation_id_seq OWNED BY public.constellation.id;
+ALTER SEQUENCE public.constellation_id_seq OWNED BY public.constellation.constellation_id;
 
 
 --
@@ -232,10 +231,10 @@ ALTER SEQUENCE public.star_id_seq OWNED BY public.star.star_id;
 
 
 --
--- Name: constellation id; Type: DEFAULT; Schema: public; Owner: freecodecamp
+-- Name: constellation constellation_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
 --
 
-ALTER TABLE ONLY public.constellation ALTER COLUMN id SET DEFAULT nextval('public.constellation_id_seq'::regclass);
+ALTER TABLE ONLY public.constellation ALTER COLUMN constellation_id SET DEFAULT nextval('public.constellation_id_seq'::regclass);
 
 
 --
@@ -399,7 +398,7 @@ ALTER TABLE ONLY public.constellation
 --
 
 ALTER TABLE ONLY public.constellation
-    ADD CONSTRAINT constellation_pk PRIMARY KEY (id, star_id);
+    ADD CONSTRAINT constellation_pk PRIMARY KEY (constellation_id, star_id);
 
 
 --
